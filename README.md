@@ -1,58 +1,124 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+# 🎓 Student Management System (SMS) - Laravel 13
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+A modern, responsive, and robust **Student Management System** developed with **Laravel 13**, featuring relational database architecture, authentication, full CRUD operations with multi-criteria filtering & searching, automated seeding, and comprehensive feature test coverage.
 
-## About Laravel
+---
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+## 📌 Project Overview
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+This project satisfies all requirements for the **Final Project**:
+1. **Authentication System**: Secure user registration, login, and session-managed logout.
+2. **Relational Database & Migrations**: Full foreign key relationships between `departments` (PK: `dept_id`) and `students` (FK: `dept_id`, PK: `student_id`).
+3. **Model Relationships**: Connected Eloquent models with `hasMany` and `belongsTo` inverse relationships.
+4. **CRUD with Filter & Search**: Search students by name or enrollment code; filter students by department (`dept_name`) and gender.
+5. **Database Seeding**: Automated seeding for realistic departments, students, and administrative users.
+6. **Form Templates**: Submission forms for students featuring interactive selection of `Dept_Name` from the `departments` table.
+7. **HTML Tables**: Responsive tabular display with action buttons (View, Edit, Delete), status badges, and Bootstrap 5 pagination.
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+---
 
-## Learning Laravel
+## 🗄️ Relational Database Schema
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
+### A. `departments` Table
+| Column Name | Type | Key | Description |
+|---|---|---|---|
+| `dept_id` | `unsignedBigInteger` | **PK** | Primary key (Auto Increment) |
+| `dept_name` | `varchar(255)` | - | Department name (e.g. Computer Science) |
+| `manager_id` | `varchar(100)` | - | Head of Department / Manager identifier |
+| `location_id` | `varchar(100)` | - | Campus building or room code |
+| `created_at` | `timestamp` | - | Record creation timestamp |
+| `updated_at` | `timestamp` | - | Record last updated timestamp |
 
-In addition, [Laracasts](https://laracasts.com) contains thousands of video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+### B. `students` Table
+| Column Name | Type | Key | Description |
+|---|---|---|---|
+| `student_id` | `unsignedBigInteger` | **PK** | Primary key (Auto Increment) |
+| `student_name` | `varchar(255)` | - | Full name of student |
+| `gender` | `varchar(20)` | - | Gender (`Male`, `Female`, `Other`) |
+| `dob` | `date` | - | Date of birth |
+| `enrollment` | `varchar(50)` | **Unique** | Unique enrollment / matriculation code |
+| `enrollment_date` | `date` | - | Official enrollment date |
+| `description` | `text` | - | Notes, achievements, or remarks (nullable) |
+| `dept_id` | `unsignedBigInteger` | **FK** | Foreign key referencing `departments(dept_id)` |
+| `created_at` | `timestamp` | - | Record creation timestamp |
+| `updated_at` | `timestamp` | - | Record last updated timestamp |
 
-You can also watch bite-sized lessons with real-world projects on [Laravel Learn](https://laravel.com/learn), where you will be guided through building a Laravel application from scratch while learning PHP fundamentals.
+---
 
-## Agentic Development
+## 🚀 Quick Start Guide
 
-Laravel's predictable structure and conventions make it ideal for AI coding agents like Claude Code, Cursor, and GitHub Copilot. Install [Laravel Boost](https://laravel.com/docs/ai) to supercharge your AI workflow:
+### 1. Requirements
+- **PHP** >= 8.3
+- **Composer** >= 2.x
+- **SQLite** or **MySQL** (Default uses zero-config SQLite)
 
+### 2. Setup & Installation
 ```bash
-composer require laravel/boost --dev
+# Clone the repository
+git clone https://github.com/Seammorodoksatya/student-management-system.git
+cd student-management-system
 
-php artisan boost:install
+# Install PHP dependencies
+composer install
+
+# Copy environment file
+cp .env.example .env
+
+# Generate application key
+php artisan key:generate
+
+# Run migrations and seed sample departments & students
+php artisan migrate:fresh --seed
 ```
 
-Boost provides your agent 15+ tools and skills that help agents build Laravel applications while following best practices.
+### 3. Start Development Server
+```bash
+php artisan serve
+```
+Open your browser at: **`http://127.0.0.1:8000`**
 
-## Contributing
+---
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+## 🔑 Demo Login Credentials
 
-## Code of Conduct
+The seeder automatically generates the following user credentials:
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+| Role | Email | Password |
+|---|---|---|
+| **System Administrator** | `admin@example.com` | `password123` |
+| **Academic Officer** | `officer@example.com` | `password123` |
 
-## Security Vulnerabilities
+You can also use the **Register** form at `/register` to create a new personal account.
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+---
 
-## License
+## 🧪 Automated Testing
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+All features are covered by automated tests using PHPUnit.
+
+```bash
+php artisan test
+```
+
+**Test Coverage Highlights:**
+- `test_guest_is_redirected_to_login`: Verifies route security for guests.
+- `test_user_can_login_and_logout`: Tests session creation and termination.
+- `test_user_can_register`: Verifies user registration flow.
+- `test_department_crud_operations`: Verifies Insert, Read, Search, Update, and Delete on departments.
+- `test_student_crud_operations`: Verifies Insert (linked to department), Search by Name, Filter by Department, Filter by Gender, Update, and Delete on students.
+
+---
+
+## 📤 Pushing to GitHub
+
+To push this repository to your GitHub account (`Seammorodoksatya`):
+
+```bash
+# 1. Create a new empty repository on https://github.com/new named "student-management-system"
+# 2. Add your GitHub remote:
+git remote add origin https://github.com/Seammorodoksatya/student-management-system.git
+
+# 3. Rename branch to main (if desired) and push:
+git branch -M main
+git push -u origin main
+```
